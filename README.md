@@ -2,19 +2,22 @@
 
 A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation.
 
-## Quick Start on nigel.birs.ca
+## Quick Start
 
 ```bash
 # Setup
-ssh vincent@nigel.birs.ca
-cd ~/text-diffusion
-python3 -m pip install torch transformers datasets accelerate wandb --user
+pip install -r requirements.txt
+
+# Or with virtual environment (recommended)
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 # Train small model (fast, for learning)
 python train.py --quick-test
 
 # Generate text
-python generate.py --checkpoint results/checkpoint-latest
+python generate.py --checkpoint results/final-model
 
 # Experiment with masking strategies
 python experiments/masking_viz.py
@@ -166,8 +169,9 @@ Good training: All levels decrease, with 100% masked having highest loss.
 ## Documentation
 
 ### Quick References
-- **QUICKSTART.md** - Fast setup and first steps on nigel.birs.ca (5 minutes)
 - **README.md** - This file: project overview and basic usage
+- **DEPLOYMENT.md** - Setup and deployment guide
+- **GENERATION_VALIDATION.md** - Sample outputs and quality assessment
 
 ### Deep Dives
 - **LEARNING_GUIDE.md** - Comprehensive technical explanation (800 lines)
@@ -176,9 +180,11 @@ Good training: All levels decrease, with 100% masked having highest loss.
   - Debugging strategies
   - Advanced topics
 - **PROJECT_SUMMARY.md** - Architecture, design decisions, success criteria
+- **PROJECT_INDEX.md** - Complete navigation guide
 
-### Deployment
-- **deploy_to_nigel.sh** - One-command deployment script
+### Scripts
+- **deploy.sh** - Deployment script for remote servers
+- **monitor_training.sh** - Training progress monitoring
 - **requirements.txt** - All dependencies
 
 ## Resources
@@ -198,18 +204,28 @@ Good training: All levels decrease, with 100% masked having highest loss.
 ## Next Steps
 
 ### Immediate (Today)
-1. Deploy: `./deploy_to_nigel.sh`
-2. Visualize: `python3 experiments/masking_viz.py`
-3. Train: `python3 train.py --quick-test`
+1. Setup: `pip install -r requirements.txt`
+2. Visualize: `python experiments/masking_viz.py`
+3. Train: `python train.py --quick-test`
+4. Generate: `python generate.py --checkpoint results/final-model`
 
 ### Short-term (This Week)
 1. Read LEARNING_GUIDE.md for deep understanding
-2. Try different architectures (BERT, DeBERTa)
-3. Experiment with sampling strategies
+2. Try different sampling strategies and schedules
+3. Experiment with hyperparameters
 
 ### Medium-term (Research)
-1. Experiment with non-uniform masking distributions
-2. Add classifier guidance for controlled generation
-3. Implement parallel decoding (faster generation)
+1. Train with more epochs for better quality
+2. Experiment with non-uniform masking distributions
+3. Add classifier guidance for controlled generation
+4. Implement parallel decoding (faster generation)
+
+## Contributing
+
+This is a learning project. Feel free to:
+- Experiment with different approaches
+- Try different model architectures
+- Test on different datasets
+- Share your findings!
 
 Happy learning! 🚀

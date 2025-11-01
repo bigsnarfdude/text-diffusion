@@ -1,27 +1,24 @@
 #!/bin/bash
-# Deploy text-diffusion project to nigel.birs.ca
+# Deploy text-diffusion project to remote server
 
 set -e
 
+# Configuration - EDIT THESE FOR YOUR SETUP
+REMOTE_HOST="${REMOTE_HOST:-user@remote-server.com}"
+REMOTE_DIR="${REMOTE_DIR:-~/text-diffusion}"
+LOCAL_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 echo "=================================="
-echo "Deploying to nigel.birs.ca"
+echo "Deploying to $REMOTE_HOST"
 echo "=================================="
 
-# Check if on right machine
-if [[ $(hostname) != *"vincent"* ]] && [[ $(hostname) != *"Vincent"* ]]; then
-    echo "⚠️  Warning: Not running from Vincent's local machine"
-    echo "Current host: $(hostname)"
-    read -p "Continue? (y/N) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
-    fi
+# Check if remote host is configured
+if [[ "$REMOTE_HOST" == "user@remote-server.com" ]]; then
+    echo "⚠️  Error: Please configure REMOTE_HOST"
+    echo "Edit this script or set environment variable:"
+    echo "  export REMOTE_HOST=your-user@your-server.com"
+    exit 1
 fi
-
-# Configuration
-REMOTE_HOST="vincent@nigel.birs.ca"
-REMOTE_DIR="~/text-diffusion"
-LOCAL_DIR="/Users/vincent/development/text-diffusion"
 
 echo ""
 echo "Configuration:"

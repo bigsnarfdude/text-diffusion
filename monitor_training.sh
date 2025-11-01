@@ -1,5 +1,9 @@
 #!/bin/bash
-# Monitor training progress on nigel.birs.ca
+# Monitor training progress on remote server
+
+# Configuration - EDIT THESE FOR YOUR SETUP
+REMOTE_HOST="${REMOTE_HOST:-user@remote-server.com}"
+REMOTE_DIR="${REMOTE_DIR:-~/text-diffusion}"
 
 echo "================================================================================
 TEXT DIFFUSION TRAINING MONITOR
@@ -7,7 +11,7 @@ TEXT DIFFUSION TRAINING MONITOR
 "
 
 # Check if training is running
-if ssh vincent@nigel.birs.ca "screen -ls" | grep -q "text-diffusion-training"; then
+if ssh $REMOTE_HOST "screen -ls" | grep -q "text-diffusion-training"; then
     echo "✅ Training session is ACTIVE"
 else
     echo "❌ Training session NOT FOUND"
@@ -21,14 +25,14 @@ echo "--------------------------------------------------------------------------
 # Get latest losses
 echo ""
 echo "Recent Loss Values:"
-ssh vincent@nigel.birs.ca "cd ~/text-diffusion && grep 'loss' training.log | tail -10 | sed 's/^/  /'"
+ssh $REMOTE_HOST "cd $REMOTE_DIR && grep 'loss' training.log | tail -10 | sed 's/^/  /'"
 
 echo ""
 echo "--------------------------------------------------------------------------------"
 
 # Count total steps
 TOTAL_STEPS=4458
-CURRENT_STEP=$(ssh vincent@nigel.birs.ca "cd ~/text-diffusion && grep -oP 'epoch\': \K[0-9.]+' training.log | tail -1" 2>/dev/null || echo "0")
+CURRENT_STEP=$(ssh $REMOTE_HOST "cd $REMOTE_DIR && grep -oP 'epoch\': \K[0-9.]+' training.log | tail -1" 2>/dev/null || echo "0")
 
 if [ -n "$CURRENT_STEP" ] && [ "$CURRENT_STEP" != "0" ]; then
     CURRENT_STEP_NUM=$(echo "$CURRENT_STEP * 1486" | bc)
@@ -40,13 +44,13 @@ fi
 echo ""
 echo "--------------------------------------------------------------------------------"
 echo "Latest Output:"
-ssh vincent@nigel.birs.ca "cd ~/text-diffusion && tail -20 training.log | grep -E 'it/s|loss' | tail -5 | sed 's/^/  /'"
+ssh $REMOTE_HOST "cd $REMOTE_DIR && tail -20 training.log | grep -E 'it/s|loss' | tail -5 | sed 's/^/  /'"
 
 echo ""
 echo "================================================================================
 Commands:
-  Watch live:   ssh vincent@nigel.birs.ca 'tail -f ~/text-diffusion/training.log'
-  Attach screen: ssh vincent@nigel.birs.ca 'screen -r text-diffusion-training'
-  Check checkpoints: ssh vincent@nigel.birs.ca 'ls -lh ~/text-diffusion/results-full/'
+  Watch live:   ssh $REMOTE_HOST 'tail -f $REMOTE_DIR/training.log'
+  Attach screen: ssh $REMOTE_HOST 'screen -r text-diffusion-training'
+  Check checkpoints: ssh $REMOTE_HOST 'ls -lh $REMOTE_DIR/results-full/'
 ================================================================================
 "

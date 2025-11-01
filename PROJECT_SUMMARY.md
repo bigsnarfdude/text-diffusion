@@ -15,11 +15,12 @@ A complete, production-ready implementation of discrete text diffusion using RoB
 ### Experiments & Learning
 - **`experiments/masking_viz.py`** (350 lines) - Visualize masking strategies
 - **`LEARNING_GUIDE.md`** (800 lines) - Comprehensive deep-dive explanation
-- **`QUICKSTART.md`** (300 lines) - Quick start for nigel.birs.ca
+- **`DEPLOYMENT.md`** - Deployment guide for local and remote setup
 - **`README.md`** (200 lines) - Project overview and usage
 
 ### Deployment
-- **`deploy_to_nigel.sh`** - One-command deployment to nigel
+- **`deploy.sh`** - One-command deployment to remote server
+- **`monitor_training.sh`** - Monitor remote training progress
 - **`requirements.txt`** - All dependencies
 
 ## Architecture
@@ -184,7 +185,7 @@ python3 experiments/masking_viz.py
 ## Next Steps for Development
 
 ### Short-term (This Week)
-- [ ] Deploy to nigel.birs.ca
+- [ ] Setup local or remote environment
 - [ ] Run quick-test training
 - [ ] Generate samples and evaluate quality
 - [ ] Try all experiment variations

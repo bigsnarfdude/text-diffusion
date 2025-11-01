@@ -35,13 +35,15 @@ cat PROJECT_SUMMARY.md
 
 ### Day 2: Run Quick Test
 ```bash
-# Deploy to nigel
-./deploy_to_nigel.sh
-
-# SSH and train
-ssh vincent@nigel.birs.ca
-cd ~/text-diffusion
+# Local training
 python3 train.py --quick-test  # 20-30 minutes
+
+# Or deploy to remote server (optional)
+./deploy.sh
+ssh user@your-server
+cd ~/text-diffusion
+source venv/bin/activate
+python3 train.py --quick-test
 ```
 
 ### Day 3: Generate & Experiment
@@ -75,12 +77,12 @@ cat generate.py
 ## 📖 Documentation Guide
 
 ### For Quick Setup
-**File**: QUICKSTART.md (300 lines)
+**File**: DEPLOYMENT.md
 **Read time**: 10 minutes
 **Contains**:
-- 5-minute setup instructions
-- Basic training commands
-- Common experiments
+- Local and remote setup instructions
+- Training options (quick test to production)
+- Generation examples
 - Troubleshooting guide
 
 ### For Understanding Concepts
@@ -298,31 +300,41 @@ return text
 
 ### Local Development
 ```bash
-cd /Users/vincent/development/text-diffusion
-python3 -m pip install -r requirements.txt
+cd text-diffusion
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 python3 experiments/masking_viz.py
 ```
 
-### Deploy to nigel.birs.ca
+### Deploy to Remote Server
 ```bash
-./deploy_to_nigel.sh
+# Set your server details
+export REMOTE_HOST=user@your-server.com
+export REMOTE_DIR=~/text-diffusion
+
+# Run deployment script
+./deploy.sh
 ```
 
 This script:
 1. Tests SSH connection
 2. Copies all files
-3. Installs dependencies
-4. Verifies installation
+3. Sets up virtual environment
+4. Installs dependencies
+5. Verifies installation
 
 ### Manual Deployment
 ```bash
 # Copy files
-scp -r * vincent@nigel.birs.ca:~/text-diffusion/
+scp -r * user@your-server:~/text-diffusion/
 
 # SSH and setup
-ssh vincent@nigel.birs.ca
+ssh user@your-server
 cd ~/text-diffusion
-python3 -m pip install --user -r requirements.txt
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
 # Test
 python3 -c "import torch, transformers, datasets"
@@ -378,7 +390,7 @@ export CUDA_VISIBLE_DEVICES=""
 
 ### Immediate (Today)
 1. ✅ Project created and verified
-2. ⏭️ Deploy to nigel.birs.ca
+2. ⏭️ Setup local or remote environment
 3. ⏭️ Run visualization experiments
 4. ⏭️ Quick test training
 
