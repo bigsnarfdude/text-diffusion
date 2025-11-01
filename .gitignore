@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Training outputs
+results/
+results-full/
+*.log
+training.log
+
+# Checkpoints (large files)
+checkpoint-*/
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Experiment outputs
+experiments/*.png
+experiments/*.pdf
+*.png
+*.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data (in case you add datasets)
+data/
+datasets/
+*.csv
+*.json
+*.jsonl
+
+# Weights & Biases
+wandb/
+
+# Temporary files
+tmp/
+temp/
