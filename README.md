@@ -10,7 +10,7 @@ A toy implementation of discrete text diffusion using RoBERTa for learning and e
 
 *The animation shows how the model gradually reveals coherent text from completely masked input over 10 denoising steps.*
 
-### 🌐 Interactive Viewer
+### Interactive Viewer
 
 For the best viewing experience, open the interactive HTML viewer:
 
