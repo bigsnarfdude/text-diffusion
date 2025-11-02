@@ -52,7 +52,7 @@ This repository contains two major experiments:
 ### 1. Text Generation via Diffusion (Original)
 Train a diffusion model to generate text by iteratively denoising masked tokens.
 
-### 2. Generative Classification (NEW!)
+### 2. Diffusion-based Generative Classifier (NEW!)
 Use per-class diffusion models for classification via likelihood estimation.
 **Result: 94% accuracy on IMDB sentiment classification**
 
@@ -84,7 +84,7 @@ python tools/visualize_generation.py \
 open assets/view_animation.html
 ```
 
-### Generative Classification
+### Diffusion-based Generative Classifier
 ```bash
 # 1. Prepare IMDB dataset (sentiment classification)
 python scripts/prepare_imdb.py
