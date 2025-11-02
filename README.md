@@ -45,8 +45,20 @@ python tools/visualize_generation.py \
 
 See [docs/VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) for detailed instructions and customization options.
 
+## Two Main Experiments
+
+This repository contains two major experiments:
+
+### 1. Text Generation via Diffusion (Original)
+Train a diffusion model to generate text by iteratively denoising masked tokens.
+
+### 2. Generative Classification (NEW!)
+Use per-class diffusion models for classification via likelihood estimation.
+**Result: 94% accuracy on IMDB sentiment classification**
+
 ## Quick Start
 
+### Text Generation
 ```bash
 # Setup
 pip install -r requirements.txt
@@ -72,6 +84,67 @@ python tools/visualize_generation.py \
 open assets/view_animation.html
 ```
 
+### Generative Classification
+```bash
+# 1. Prepare IMDB dataset (sentiment classification)
+python scripts/prepare_imdb.py
+
+# 2. Train per-class diffusion models (10 epochs, ~30 min)
+python src/train_generative_classifier.py --epochs 10 --batch-size 16
+
+# 3. Evaluate classifier
+python src/evaluate_classifier.py \
+  --model-dir results-generative-classifier \
+  --max-samples 500
+
+# Expected result: ~94% accuracy
+```
+
+## Generative Classification Explained
+
+### What Is Generative Classification?
+
+Instead of training a single discriminative model P(class|text), we:
+1. Train separate diffusion models for each class: P(text|class_0), P(text|class_1), ...
+2. Classify new text by comparing likelihoods: which class model assigns higher probability?
+3. Use Bayes rule: argmax P(class|text) ∝ P(text|class) × P(class)
+
+### Why Does This Work?
+
+Each class model learns the language patterns specific to that class:
+- **Negative reviews model** learns: "terrible", "waste of time", "boring", "disappointing"
+- **Positive reviews model** learns: "amazing", "loved it", "masterpiece", "excellent"
+
+When you give a new review like "This movie was terrible and boring":
+- Negative model: High likelihood (these are common words in negative reviews)
+- Positive model: Low likelihood (these words rarely appear in positive reviews)
+- Classification: NEGATIVE (higher likelihood)
+
+### Results
+
+**Initial attempt (insufficient training):**
+- Training: 2,000 samples per class, 3 epochs
+- Result: 52.6% accuracy (random guessing!)
+- Problem: Both models learned general English, not class-specific patterns
+
+**Successful approach (adequate training):**
+- Training: 12,500 samples per class, 10 epochs
+- Result: **94% accuracy** on IMDB sentiment classification
+- Solution: More data + more epochs → models diverge and learn class-specific language
+
+**Key Insight:** Generative classification works, but requires significantly more training than discriminative approaches to learn distinct P(text|class) distributions.
+
+### Implementation Details
+
+See these files for the complete implementation:
+- `src/classifier/trainer.py` - Per-class training (lines 1-267)
+- `src/classifier/inference.py` - Likelihood-based classification (lines 1-287)
+- `src/classifier/data.py` - IMDB data loading
+- `src/train_generative_classifier.py` - Training script
+- `src/evaluate_classifier.py` - Evaluation with metrics
+- `docs/FIXING_CLASSIFIER.md` - Troubleshooting guide
+- `docs/CLASSIFIER_RESULTS.md` - Full experimental results
+
 ## Project Structure
 
 ```
@@ -82,8 +155,14 @@ text-diffusion/
 ├── src/                             # Core implementation
 │   ├── config.py                   # All hyperparameters
 │   ├── data_collator.py            # Variable masking (the key innovation)
-│   ├── train.py                    # Training script
-│   └── generate.py                 # Iterative denoising generation
+│   ├── train.py                    # Training script (generation)
+│   ├── generate.py                 # Iterative denoising generation
+│   ├── train_generative_classifier.py  # Classifier training
+│   ├── evaluate_classifier.py      # Classifier evaluation
+│   └── classifier/                 # Generative classification
+│       ├── trainer.py              # Per-class training
+│       ├── inference.py            # Likelihood-based classification
+│       └── data.py                 # Data loading
 │
 ├── tools/                           # Visualization & analysis tools
 │   ├── visualize_generation.py     # Create animated visualizations
@@ -101,7 +180,9 @@ text-diffusion/
 │   ├── GENERATION_VALIDATION.md    # Sample outputs & quality
 │   ├── VISUALIZATION_GUIDE.md      # Visualization usage
 │   ├── COMPARISON.md               # vs Original implementation
-│   └── CODE_COMPARISON.md          # Side-by-side code analysis
+│   ├── CODE_COMPARISON.md          # Side-by-side code analysis
+│   ├── FIXING_CLASSIFIER.md        # Classifier troubleshooting (6 fixes)
+│   └── CLASSIFIER_RESULTS.md       # Full experimental results
 │
 ├── assets/                          # Media files
 │   ├── text_diffusion_animation.gif # Example animation
@@ -111,7 +192,8 @@ text-diffusion/
 ├── papers/                          # Reference papers
 │   └── 2025-text-diffusion-paper.pdf
 │
-└── scripts/                         # Deployment & monitoring
+└── scripts/                         # Data preparation & monitoring
+    ├── prepare_imdb.py              # Prepare IMDB dataset for classification
     ├── deploy.sh                    # Deployment script
     └── monitor_training.sh          # Training monitoring
 ```
