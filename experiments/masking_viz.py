@@ -11,7 +11,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from transformers import RobertaTokenizerFast
-from data_collator import VisualizableDiffusionCollator
+from src.data_collator import VisualizableDiffusionCollator
 
 
 def visualize_masking_levels():

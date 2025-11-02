@@ -6,7 +6,7 @@ A toy implementation of discrete text diffusion using RoBERTa for learning and e
 
 **Watch text emerge from noise through iterative denoising:**
 
-![Text Diffusion Animation](text_diffusion_animation.gif)
+![Text Diffusion Animation](assets/text_diffusion_animation.gif)
 
 *The animation shows how the model gradually reveals coherent text from completely masked input over 10 denoising steps.*
 
@@ -16,11 +16,11 @@ For the best viewing experience, open the interactive HTML viewer:
 
 ```bash
 # Open in your browser
-open view_animation.html
+open assets/view_animation.html
 
 # Or on Linux/remote
 python3 -m http.server 8000
-# Then visit: http://localhost:8000/view_animation.html
+# Then visit: http://localhost:8000/assets/view_animation.html
 ```
 
 The interactive viewer includes:
@@ -33,7 +33,7 @@ The interactive viewer includes:
 
 ```bash
 # Generate your own animated visualization
-python visualize_generation.py \
+python tools/visualize_generation.py \
   --checkpoint results-full/final-model \
   --prefix "Your prompt here" \
   --max-length 50
@@ -43,7 +43,7 @@ python visualize_generation.py \
 # - visualization_frames/ (individual PNG frames)
 ```
 
-See [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) for detailed instructions and customization options.
+See [docs/VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) for detailed instructions and customization options.
 
 ## Quick Start
 
@@ -57,19 +57,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Train small model (fast, for learning)
-python train.py --quick-test
+python src/train.py --quick-test
 
 # Generate text
-python generate.py --checkpoint results/final-model
+python src/generate.py --checkpoint results/final-model
 
 # NEW: Create animated visualization!
-python visualize_generation.py \
+python tools/visualize_generation.py \
   --checkpoint results/final-model \
   --prefix "Machine learning is" \
   --max-length 50
 
 # View the animation in your browser
-open view_animation.html
+open assets/view_animation.html
 ```
 
 ## Project Structure
@@ -78,22 +78,42 @@ open view_animation.html
 text-diffusion/
 ├── README.md                        # This file
 ├── requirements.txt                 # Dependencies
-├── config.py                        # All hyperparameters
-├── data_collator.py                # The magic: variable masking for training
-├── train.py                         # Training script with visualization
-├── generate.py                      # Iterative denoising generation
-├── visualize_generation.py         # Create animated visualizations
-├── compare_models.py                # RoBERTa Diffusion vs GPT-2 comparison
-├── view_animation.html             # Interactive browser viewer
-├── text_diffusion_animation.gif    # Example animation
-├── comparison.gif                   # Diffusion vs Autoregressive comparison
-├── VISUALIZATION_GUIDE.md          # Visualization usage guide
-├── COMPARISON.md                    # vs Original implementation
-├── CODE_COMPARISON.md               # Side-by-side code analysis
-└── experiments/
-    ├── masking_viz.py              # Visualize masking strategies
-    ├── schedule_comparison.py       # Compare denoising schedules
-    └── layer_analysis.py            # Analyze model layer behavior
+│
+├── src/                             # Core implementation
+│   ├── config.py                   # All hyperparameters
+│   ├── data_collator.py            # Variable masking (the key innovation)
+│   ├── train.py                    # Training script
+│   └── generate.py                 # Iterative denoising generation
+│
+├── tools/                           # Visualization & analysis tools
+│   ├── visualize_generation.py     # Create animated visualizations
+│   └── compare_models.py           # RoBERTa Diffusion vs GPT-2 comparison
+│
+├── experiments/                     # Experimental scripts
+│   ├── masking_viz.py              # Visualize masking strategies
+│   ├── schedule_comparison.py      # Compare denoising schedules
+│   └── layer_analysis.py           # Analyze model layer behavior
+│
+├── docs/                            # Documentation
+│   ├── LEARNING_GUIDE.md           # Comprehensive technical guide
+│   ├── PROJECT_SUMMARY.md          # Architecture & design decisions
+│   ├── DEPLOYMENT.md               # Setup & deployment
+│   ├── GENERATION_VALIDATION.md    # Sample outputs & quality
+│   ├── VISUALIZATION_GUIDE.md      # Visualization usage
+│   ├── COMPARISON.md               # vs Original implementation
+│   └── CODE_COMPARISON.md          # Side-by-side code analysis
+│
+├── assets/                          # Media files
+│   ├── text_diffusion_animation.gif # Example animation
+│   ├── comparison.gif              # Diffusion vs Autoregressive
+│   └── view_animation.html         # Interactive browser viewer
+│
+├── papers/                          # Reference papers
+│   └── 2025-text-diffusion-paper.pdf
+│
+└── scripts/                         # Deployment & monitoring
+    ├── deploy.sh                    # Deployment script
+    └── monitor_training.sh          # Training monitoring
 ```
 
 ## Core Concepts
@@ -121,7 +141,7 @@ The best way to understand text diffusion is to **watch it happen**! The visuali
 
 ```bash
 # Create visualization
-python visualize_generation.py \
+python tools/visualize_generation.py \
   --checkpoint results-full/final-model \
   --prefix "The future of AI" \
   --max-length 50 \
@@ -154,7 +174,7 @@ Want to see how RoBERTa Diffusion compares to GPT-2's autoregressive generation?
 
 ```bash
 # Create side-by-side comparison animation
-python compare_models.py \
+python tools/compare_models.py \
   --roberta-checkpoint results-full/final-model \
   --gpt2-checkpoint gpt2 \
   --prompt "Machine learning is" \
@@ -182,28 +202,28 @@ python compare_models.py \
 ### Masking Strategies
 ```bash
 # Linear schedule (default)
-python generate.py --schedule linear
+python src/generate.py --schedule linear
 
 # Cosine schedule (more time at ends)
-python generate.py --schedule cosine
+python src/generate.py --schedule cosine
 
 # Exponential decay
-python generate.py --schedule exponential
+python src/generate.py --schedule exponential
 ```
 
 ### Sampling Methods
 ```bash
 # Greedy (deterministic)
-python generate.py --sampling greedy
+python src/generate.py --sampling greedy
 
 # Top-k sampling
-python generate.py --sampling topk --k 50
+python src/generate.py --sampling topk --k 50
 
 # Nucleus sampling
-python generate.py --sampling nucleus --p 0.9
+python src/generate.py --sampling nucleus --p 0.9
 
 # Temperature control
-python generate.py --temperature 0.7
+python src/generate.py --temperature 0.7
 ```
 
 ### Layer Analysis
@@ -289,22 +309,22 @@ Good training: All levels decrease, with 100% masked having highest loss.
 
 ### Quick References
 - **README.md** - This file: project overview and basic usage
-- **VISUALIZATION_GUIDE.md** - 🎬 How to create and customize animated visualizations
-- **DEPLOYMENT.md** - Setup and deployment guide
-- **GENERATION_VALIDATION.md** - Sample outputs and quality assessment
+- **docs/VISUALIZATION_GUIDE.md** - 🎬 How to create and customize animated visualizations
+- **docs/DEPLOYMENT.md** - Setup and deployment guide
+- **docs/GENERATION_VALIDATION.md** - Sample outputs and quality assessment
 
 ### Deep Dives
-- **LEARNING_GUIDE.md** - Comprehensive technical explanation (800 lines)
+- **docs/LEARNING_GUIDE.md** - Comprehensive technical explanation (800 lines)
   - Mathematical intuition
   - Implementation details
   - Debugging strategies
   - Advanced topics
-- **PROJECT_SUMMARY.md** - Architecture, design decisions, success criteria
-- **PROJECT_INDEX.md** - Complete navigation guide
+- **docs/PROJECT_SUMMARY.md** - Architecture, design decisions, success criteria
+- **docs/PROJECT_INDEX.md** - Complete navigation guide
 
 ### Scripts
-- **deploy.sh** - Deployment script for remote servers
-- **monitor_training.sh** - Training progress monitoring
+- **scripts/deploy.sh** - Deployment script for remote servers
+- **scripts/monitor_training.sh** - Training progress monitoring
 - **requirements.txt** - All dependencies
 
 ## Resources
@@ -326,11 +346,11 @@ Good training: All levels decrease, with 100% masked having highest loss.
 ### Immediate (Today)
 1. Setup: `pip install -r requirements.txt`
 2. Visualize: `python experiments/masking_viz.py`
-3. Train: `python train.py --quick-test`
-4. Generate: `python generate.py --checkpoint results/final-model`
+3. Train: `python src/train.py --quick-test`
+4. Generate: `python src/generate.py --checkpoint results/final-model`
 
 ### Short-term (This Week)
-1. Read LEARNING_GUIDE.md for deep understanding
+1. Read docs/LEARNING_GUIDE.md for deep understanding
 2. Try different sampling strategies and schedules
 3. Experiment with hyperparameters
 

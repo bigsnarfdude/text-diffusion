@@ -42,7 +42,7 @@ def diffusion_collator(features):
 - ❌ No logging per masking level
 - ❌ Hard to experiment with different settings
 
-#### **Ours (`train.py` + `data_collator.py` + `config.py`)**
+#### **Ours (`src/train.py` + `src/data_collator.py` + `src/config.py`)**
 ```python
 # Separate config module with CLI args
 python train.py \
@@ -95,7 +95,7 @@ if animate:
 - ❌ No standalone generation (must show animation)
 - ❌ Position-by-position sampling (slow)
 
-#### **Ours (`generate.py` + `visualize_generation.py`)**
+#### **Ours (`src/generate.py` + `tools/visualize_generation.py`)**
 ```python
 # Full CLI with multiple options
 python generate.py \
@@ -228,7 +228,7 @@ plt.show()
 - No color coding
 - Text-only display
 
-#### **Ours (`visualize_generation.py` + `view_animation.html`)**
+#### **Ours (`tools/visualize_generation.py` + `view_animation.html`)**
 ```python
 # Creates beautiful PNG frames with color coding
 def create_frame(step, tokens, mask_positions, newly_revealed):

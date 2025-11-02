@@ -6,8 +6,12 @@ Shows the iterative denoising process as text gradually emerges from noise.
 """
 
 import sys
+import os
 from typing import List, Tuple
 from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 import torch.nn.functional as F
@@ -15,7 +19,7 @@ from transformers import RobertaTokenizerFast, RobertaForMaskedLM
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
-from config import GenerationConfig, parse_generation_args
+from src.config import GenerationConfig, parse_generation_args
 
 
 class GenerationVisualizer:

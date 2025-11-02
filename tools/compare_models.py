@@ -9,9 +9,14 @@ visualization showing the different generation paradigms:
 """
 
 import argparse
+import sys
+import os
 import time
 from typing import List, Tuple
 from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 import torch.nn.functional as F
@@ -23,7 +28,7 @@ from transformers import (
 )
 from PIL import Image, ImageDraw, ImageFont
 
-from config import GenerationConfig
+from src.config import GenerationConfig
 
 
 class ModelComparison:

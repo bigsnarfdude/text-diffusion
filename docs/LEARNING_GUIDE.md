@@ -57,7 +57,7 @@ Step 10 (0% masked):  The quick brown fox jumps
 
 ### Component 1: Data Collator (The Key Innovation)
 
-**File:** `data_collator.py`
+**File:** `src/data_collator.py`
 
 **What it does:**
 ```python
@@ -74,7 +74,7 @@ Step 10 (0% masked):  The quick brown fox jumps
 
 ### Component 2: Training Loop (Standard HuggingFace)
 
-**File:** `train.py`
+**File:** `src/train.py`
 
 **What it does:**
 ```python
@@ -94,7 +94,7 @@ for batch in data:
 
 ### Component 3: Generation (Iterative Denoising)
 
-**File:** `generate.py`
+**File:** `src/generate.py`
 
 **Algorithm:**
 ```python

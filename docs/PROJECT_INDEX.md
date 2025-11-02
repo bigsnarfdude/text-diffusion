@@ -372,7 +372,7 @@ export CUDA_VISIBLE_DEVICES=""
 ```
 
 ### "Generated text ignoring prefix"
-- Check `prefix_length` in `generate.py`
+- Check `prefix_length` in `src/generate.py`
 - Verify model was trained with prefix preservation
 - Try longer prefix (more context)
 
@@ -431,7 +431,7 @@ export CUDA_VISIBLE_DEVICES=""
 ## 💡 Tips for Learning
 
 1. **Start with visualization**: Run `masking_viz.py` first to understand concepts
-2. **Read code top-to-bottom**: Start with `config.py`, then `data_collator.py`
+2. **Read code top-to-bottom**: Start with `src/config.py`, then `src/data_collator.py`
 3. **Modify and experiment**: Change hyperparameters, see what happens
 4. **Watch training closely**: Monitor logs, verify loss decreases
 5. **Generate frequently**: Test generation at different training checkpoints

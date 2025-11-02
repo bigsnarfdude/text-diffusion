@@ -7,10 +7,10 @@ A complete, well-structured toy implementation of discrete text diffusion using 
 ## Key Files
 
 ### Core Implementation
-- **`data_collator.py`** (350 lines) - Variable masking collator (THE KEY INNOVATION)
-- **`train.py`** (200 lines) - Training script with HuggingFace Trainer
-- **`generate.py`** (250 lines) - Iterative denoising generation
-- **`config.py`** (200 lines) - All hyperparameters and argument parsing
+- **`src/data_collator.py`** (350 lines) - Variable masking collator (THE KEY INNOVATION)
+- **`src/train.py`** (200 lines) - Training script with HuggingFace Trainer
+- **`src/generate.py`** (250 lines) - Iterative denoising generation
+- **`src/config.py`** (200 lines) - All hyperparameters and argument parsing
 
 ### Experiments & Learning
 - **`experiments/masking_viz.py`** (350 lines) - Visualize masking strategies

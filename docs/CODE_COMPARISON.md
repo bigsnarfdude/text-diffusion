@@ -46,7 +46,7 @@ def diffusion_collator(features):
     }
 ```
 
-#### Ours (`data_collator.py` - reusable class)
+#### Ours (`src/data_collator.py` - reusable class)
 ```python
 @dataclass
 class DiffusionDataCollator:
@@ -173,7 +173,7 @@ for p_mask in mask_probs:
     current_ids = next_ids
 ```
 
-#### Ours (`generate.py` - DiffusionGenerator class)
+#### Ours (`src/generate.py` - DiffusionGenerator class)
 ```python
 class DiffusionGenerator:
     """Iterative text generator using diffusion-trained RoBERTa."""
@@ -306,7 +306,7 @@ parser.add_argument("prompt", type=str, help="Text prompt")
 parser.add_argument("--animation", action="store_false")
 ```
 
-#### Ours (`config.py`)
+#### Ours (`src/config.py`)
 ```python
 @dataclass
 class TrainingConfig:

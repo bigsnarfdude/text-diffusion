@@ -11,6 +11,9 @@ import os
 import sys
 from typing import Dict
 
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import torch
 from transformers import (
     RobertaTokenizerFast,
@@ -21,8 +24,8 @@ from transformers import (
 )
 from datasets import load_dataset
 
-from config import TrainingConfig, parse_training_args
-from data_collator import DiffusionDataCollator
+from src.config import TrainingConfig, parse_training_args
+from src.data_collator import DiffusionDataCollator
 
 
 class DiffusionTrainer(Trainer):

@@ -9,13 +9,17 @@ This implements the iterative denoising process:
 """
 
 import sys
+import os
 from typing import List, Optional
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 import torch.nn.functional as F
 from transformers import RobertaTokenizerFast, RobertaForMaskedLM
 
-from config import GenerationConfig, parse_generation_args
+from src.config import GenerationConfig, parse_generation_args
 
 
 class DiffusionGenerator:
