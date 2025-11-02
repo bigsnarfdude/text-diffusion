@@ -2,7 +2,7 @@
 
 A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation.
 
-## 🎬 See It In Action!
+## See It In Action!
 
 **Watch text emerge from noise through iterative denoising:**
 
