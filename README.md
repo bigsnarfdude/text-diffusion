@@ -1,6 +1,6 @@
 # Text Diffusion Learning Project
 
-A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation.
+A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation. Experiments on classification tasks for applications requiring robust, calibrated, and explainable text classification.
 
 Diffusion models for text classification remain largely unexplored with only 3-5 core papers published between 2022-2024, primarily focusing on adversarial robustness and uncertainty quantification rather than accuracy improvements, with ROIC-DM (2024) being the first to directly use diffusion as a text classifier. ccresearch
 
