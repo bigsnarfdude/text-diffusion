@@ -24,12 +24,12 @@ python3 -m http.server 8000
 ```
 
 The interactive viewer includes:
-- ✨ Full animation playback with controls
-- 🖼️ Individual frame inspection (Step 0-10)
-- 📊 Color-coded legend explaining the process
-- ⌨️ Keyboard shortcuts (R = replay, F = toggle frames)
+- Full animation playback with controls
+- Individual frame inspection (Step 0-10)
+- Color-coded legend explaining the process
+- Keyboard shortcuts (R = replay, F = toggle frames)
 
-### 🎨 Create Your Own Visualizations
+### Create Your Own Visualizations
 
 ```bash
 # Generate your own animated visualization
