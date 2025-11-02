@@ -4,6 +4,8 @@ A toy implementation of discrete text diffusion using RoBERTa for learning and e
 
 Diffusion models for text classification remain largely unexplored with only 3-5 core papers published between 2022-2024, primarily focusing on adversarial robustness and uncertainty quantification rather than accuracy improvements, with ROIC-DM (2024) being the first to directly use diffusion as a text classifier. ccresearch
 
+https://gist.github.com/bigsnarfdude/23ec6b30a53437c436c8c4338ee6678c
+
 ## See It In Action!
 
 **Watch text emerge from noise through iterative denoising:**
