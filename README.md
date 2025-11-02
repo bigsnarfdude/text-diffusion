@@ -82,10 +82,14 @@ text-diffusion/
 ├── data_collator.py                # The magic: variable masking for training
 ├── train.py                         # Training script with visualization
 ├── generate.py                      # Iterative denoising generation
-├── visualize_generation.py         # 🎬 NEW: Create animated visualizations
+├── visualize_generation.py         # 🎬 Create animated visualizations
+├── compare_models.py                # 🆚 RoBERTa Diffusion vs GPT-2 comparison
 ├── view_animation.html             # 🌐 Interactive browser viewer
 ├── text_diffusion_animation.gif    # 🎥 Example animation
+├── comparison.gif                   # 🆚 Diffusion vs Autoregressive comparison
 ├── VISUALIZATION_GUIDE.md          # Visualization usage guide
+├── COMPARISON.md                    # vs Original implementation
+├── CODE_COMPARISON.md               # Side-by-side code analysis
 └── experiments/
     ├── masking_viz.py              # Visualize masking strategies
     ├── schedule_comparison.py       # Compare denoising schedules
@@ -143,6 +147,35 @@ python visualize_generation.py \
 - **Linear schedule** vs **cosine** (smoother transitions)
 
 See the complete guide: [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md)
+
+## 🆚 Compare Diffusion vs Autoregressive
+
+Want to see how RoBERTa Diffusion compares to GPT-2's autoregressive generation?
+
+```bash
+# Create side-by-side comparison animation
+python compare_models.py \
+  --roberta-checkpoint results-full/final-model \
+  --gpt2-checkpoint gpt2 \
+  --prompt "Machine learning is" \
+  --max-length 50 \
+  --output comparison.gif
+```
+
+**What you'll see:**
+- **Top half**: RoBERTa Diffusion - iterative refinement (all positions simultaneously)
+- **Bottom half**: GPT-2 - autoregressive generation (left-to-right, one token at a time)
+- **Side-by-side visualization** showing the fundamental difference in generation paradigms
+
+**Output:**
+- `comparison.gif` - Animated side-by-side comparison
+- `comparison_frames/` - Individual frames for analysis
+
+**Key differences visualized:**
+- **Diffusion**: Text gradually refines from [MASK] tokens → coherent output
+- **Autoregressive**: Text builds left-to-right, one token at a time
+- **Speed**: Both take similar time, but different approaches
+- **Quality**: Both produce coherent text, different characteristics
 
 ## Experiments to Try
 
