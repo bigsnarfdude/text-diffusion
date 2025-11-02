@@ -62,7 +62,7 @@ python train.py --quick-test
 # Generate text
 python generate.py --checkpoint results/final-model
 
-# 🎬 NEW: Create animated visualization!
+# NEW: Create animated visualization!
 python visualize_generation.py \
   --checkpoint results/final-model \
   --prefix "Machine learning is" \
@@ -82,11 +82,11 @@ text-diffusion/
 ├── data_collator.py                # The magic: variable masking for training
 ├── train.py                         # Training script with visualization
 ├── generate.py                      # Iterative denoising generation
-├── visualize_generation.py         # 🎬 Create animated visualizations
-├── compare_models.py                # 🆚 RoBERTa Diffusion vs GPT-2 comparison
-├── view_animation.html             # 🌐 Interactive browser viewer
-├── text_diffusion_animation.gif    # 🎥 Example animation
-├── comparison.gif                   # 🆚 Diffusion vs Autoregressive comparison
+├── visualize_generation.py         # Create animated visualizations
+├── compare_models.py                # RoBERTa Diffusion vs GPT-2 comparison
+├── view_animation.html             # Interactive browser viewer
+├── text_diffusion_animation.gif    # Example animation
+├── comparison.gif                   # Diffusion vs Autoregressive comparison
 ├── VISUALIZATION_GUIDE.md          # Visualization usage guide
 ├── COMPARISON.md                    # vs Original implementation
 ├── CODE_COMPARISON.md               # Side-by-side code analysis
