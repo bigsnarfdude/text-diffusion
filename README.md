@@ -2,6 +2,49 @@
 
 A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation.
 
+## 🎬 See It In Action!
+
+**Watch text emerge from noise through iterative denoising:**
+
+![Text Diffusion Animation](text_diffusion_animation.gif)
+
+*The animation shows how the model gradually reveals coherent text from completely masked input over 10 denoising steps.*
+
+### 🌐 Interactive Viewer
+
+For the best viewing experience, open the interactive HTML viewer:
+
+```bash
+# Open in your browser
+open view_animation.html
+
+# Or on Linux/remote
+python3 -m http.server 8000
+# Then visit: http://localhost:8000/view_animation.html
+```
+
+The interactive viewer includes:
+- ✨ Full animation playback with controls
+- 🖼️ Individual frame inspection (Step 0-10)
+- 📊 Color-coded legend explaining the process
+- ⌨️ Keyboard shortcuts (R = replay, F = toggle frames)
+
+### 🎨 Create Your Own Visualizations
+
+```bash
+# Generate your own animated visualization
+python visualize_generation.py \
+  --checkpoint results-full/final-model \
+  --prefix "Your prompt here" \
+  --max-length 50
+
+# The script creates:
+# - text_diffusion_animation.gif (animated GIF)
+# - visualization_frames/ (individual PNG frames)
+```
+
+See [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) for detailed instructions and customization options.
+
 ## Quick Start
 
 ```bash
@@ -19,24 +62,34 @@ python train.py --quick-test
 # Generate text
 python generate.py --checkpoint results/final-model
 
-# Experiment with masking strategies
-python experiments/masking_viz.py
+# 🎬 NEW: Create animated visualization!
+python visualize_generation.py \
+  --checkpoint results/final-model \
+  --prefix "Machine learning is" \
+  --max-length 50
+
+# View the animation in your browser
+open view_animation.html
 ```
 
 ## Project Structure
 
 ```
 text-diffusion/
-├── README.md                    # This file
-├── requirements.txt             # Dependencies
-├── config.py                    # All hyperparameters
-├── data_collator.py            # The magic: variable masking for training
-├── train.py                     # Training script with visualization
-├── generate.py                  # Iterative denoising generation
+├── README.md                        # This file
+├── requirements.txt                 # Dependencies
+├── config.py                        # All hyperparameters
+├── data_collator.py                # The magic: variable masking for training
+├── train.py                         # Training script with visualization
+├── generate.py                      # Iterative denoising generation
+├── visualize_generation.py         # 🎬 NEW: Create animated visualizations
+├── view_animation.html             # 🌐 Interactive browser viewer
+├── text_diffusion_animation.gif    # 🎥 Example animation
+├── VISUALIZATION_GUIDE.md          # Visualization usage guide
 └── experiments/
-    ├── masking_viz.py          # Visualize masking strategies
-    ├── schedule_comparison.py   # Compare denoising schedules
-    └── layer_analysis.py        # Analyze model layer behavior
+    ├── masking_viz.py              # Visualize masking strategies
+    ├── schedule_comparison.py       # Compare denoising schedules
+    └── layer_analysis.py            # Analyze model layer behavior
 ```
 
 ## Core Concepts
@@ -57,6 +110,39 @@ text-diffusion/
 - High masking (90-100%): Model learns structure, frequent words
 - Medium masking (40-60%): Context-dependent content
 - Low masking (10-20%): Fine details, rare tokens
+
+## 🎥 Visualizing the Process
+
+The best way to understand text diffusion is to **watch it happen**! The visualization tool creates an animated GIF showing how text gradually emerges from noise:
+
+```bash
+# Create visualization
+python visualize_generation.py \
+  --checkpoint results-full/final-model \
+  --prefix "The future of AI" \
+  --max-length 50 \
+  --sampling topk \
+  --temperature 0.8
+```
+
+**What you'll see:**
+- 🔵 **Blue progress bar** filling up as denoising progresses
+- 🟢 **Green sparkles (✨)** highlighting newly revealed tokens
+- ⚪ **White text** showing previously revealed tokens
+- 🔘 **Gray [MASK]** tokens still waiting to be predicted
+- 📊 **Percentage indicator** showing masked vs. revealed ratio
+
+**Output files:**
+- `text_diffusion_animation.gif` - Complete animation (800ms per frame)
+- `visualization_frames/` - Individual PNG frames for detailed inspection
+- `view_animation.html` - Interactive browser viewer with controls
+
+**Try different settings:**
+- **Temperature 0.3** (conservative) vs **1.2** (creative)
+- **Greedy sampling** (deterministic) vs **nucleus** (diverse)
+- **Linear schedule** vs **cosine** (smoother transitions)
+
+See the complete guide: [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md)
 
 ## Experiments to Try
 
@@ -170,6 +256,7 @@ Good training: All levels decrease, with 100% masked having highest loss.
 
 ### Quick References
 - **README.md** - This file: project overview and basic usage
+- **VISUALIZATION_GUIDE.md** - 🎬 How to create and customize animated visualizations
 - **DEPLOYMENT.md** - Setup and deployment guide
 - **GENERATION_VALIDATION.md** - Sample outputs and quality assessment
 

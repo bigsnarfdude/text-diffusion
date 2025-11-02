@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diffusion Animation Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .animation-wrapper {
+            background: #0f0f23;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        #mainGif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .info-box p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .legend-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .prefix { background: rgb(100, 200, 255); }
+        .mask { background: rgb(100, 100, 120); }
+        .new { background: rgb(100, 255, 150); }
+        .old { background: rgb(200, 200, 200); }
+
+        .frames-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .frame-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .frame-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .frame-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .frame-label {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .section-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-toggle::before {
+            content: '▼ ';
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .section-toggle.collapsed::before {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .legend {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Text Diffusion Animation</h1>
+        <p class="subtitle">Watch text emerge from noise through iterative denoising</p>
+
+        <div class="info-box">
+            <h3>How It Works</h3>
+            <p>
+                This visualization shows a diffusion model generating text. Starting from complete noise
+                (all [MASK] tokens), the model iteratively refines the text over 10 steps until coherent
+                output emerges. Watch as the blue progress bar fills and masked tokens gradually reveal themselves!
+            </p>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="color-box prefix"></div>
+                <span><strong>Light Blue:</strong> Input prefix</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box mask"></div>
+                <span><strong>Gray [MASK]:</strong> Unknown tokens</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box new"></div>
+                <span><strong>Green ✨:</strong> Newly revealed</span>
+            </div>
+            <div class="legend-item">
+                <div class="color-box old"></div>
+                <span><strong>White:</strong> Previously revealed</span>
+            </div>
+        </div>
+
+        <div class="animation-wrapper">
+            <div class="animation-container">
+                <img id="mainGif" src="text_diffusion_animation.gif" alt="Text Diffusion Animation">
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="reloadGif()">🔄 Replay Animation</button>
+            <button class="btn" onclick="toggleFrames()">🖼️ Show Individual Frames</button>
+            <button class="btn" onclick="downloadGif()">⬇️ Download GIF</button>
+        </div>
+
+        <div class="info-box">
+            <h3 class="section-toggle" onclick="toggleSection(this)">Individual Frames</h3>
+            <div class="collapsible-content collapsed" id="framesSection">
+                <p style="margin: 15px 0;">Click any frame to view it in detail:</p>
+                <div class="frames-grid" id="framesGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading frames...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3 class="section-toggle" onclick="toggleSection(this)">Technical Details</h3>
+            <div class="collapsible-content collapsed">
+                <p><strong>Model:</strong> RoBERTa-base (125M parameters)</p>
+                <p><strong>Training:</strong> 3 epochs on WikiText-2 dataset</p>
+                <p><strong>Denoising Steps:</strong> 10 iterations</p>
+                <p><strong>Schedule:</strong> Linear masking schedule</p>
+                <p><strong>Sampling:</strong> Top-k sampling with temperature 0.8</p>
+                <p><strong>Resolution:</strong> 1200x800 pixels per frame</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3 class="section-toggle" onclick="toggleSection(this)">Generate Your Own</h3>
+            <div class="collapsible-content collapsed">
+                <p>Create your own visualizations with custom prompts:</p>
+                <pre style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 5px; overflow-x: auto; margin: 10px 0;">
+cd ~/text-diffusion
+source venv/bin/activate
+
+# Basic usage
+python visualize_generation.py \
+  --checkpoint results-full/final-model \
+  --prefix "Your prompt here" \
+  --max-length 50
+
+# More creative (higher temperature)
+python visualize_generation.py \
+  --checkpoint results-full/final-model \
+  --prefix "The future of AI" \
+  --temperature 1.2 \
+  --sampling nucleus
+
+# Different schedule
+python visualize_generation.py \
+  --checkpoint results-full/final-model \
+  --prefix "Scientists discovered" \
+  --schedule cosine
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load frames dynamically
+        function loadFrames() {
+            const framesGrid = document.getElementById('framesGrid');
+            framesGrid.innerHTML = '';
+
+            // Create frame items (0-10)
+            for (let i = 0; i <= 10; i++) {
+                const frameNum = String(i).padStart(3, '0');
+                const frameDiv = document.createElement('div');
+                frameDiv.className = 'frame-item';
+                frameDiv.onclick = () => showFrame(i);
+
+                const img = document.createElement('img');
+                img.src = `visualization_frames/frame_${frameNum}.png`;
+                img.alt = `Frame ${i}`;
+                img.onerror = () => {
+                    frameDiv.style.display = 'none';
+                };
+
+                const label = document.createElement('div');
+                label.className = 'frame-label';
+                label.textContent = `Step ${i}/10`;
+
+                frameDiv.appendChild(img);
+                frameDiv.appendChild(label);
+                framesGrid.appendChild(frameDiv);
+            }
+        }
+
+        function showFrame(frameNum) {
+            const mainGif = document.getElementById('mainGif');
+            const frameNumStr = String(frameNum).padStart(3, '0');
+            mainGif.src = `visualization_frames/frame_${frameNumStr}.png`;
+        }
+
+        function reloadGif() {
+            const mainGif = document.getElementById('mainGif');
+            const src = mainGif.src;
+            mainGif.src = '';
+            setTimeout(() => {
+                mainGif.src = src + '?t=' + new Date().getTime();
+            }, 10);
+        }
+
+        function toggleFrames() {
+            const section = document.getElementById('framesSection');
+            const toggle = section.previousElementSibling;
+            toggleSection(toggle);
+        }
+
+        function toggleSection(element) {
+            const content = element.nextElementSibling;
+            content.classList.toggle('collapsed');
+            element.classList.toggle('collapsed');
+
+            // Load frames when showing frames section
+            if (element.textContent.includes('Individual Frames') && !content.classList.contains('collapsed')) {
+                loadFrames();
+            }
+        }
+
+        function downloadGif() {
+            const link = document.createElement('a');
+            link.href = 'text_diffusion_animation.gif';
+            link.download = 'text_diffusion_animation.gif';
+            link.click();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' || e.key === 'R') {
+                reloadGif();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFrames();
+            }
+        });
+
+        // Add keyboard hints
+        window.addEventListener('load', () => {
+            console.log('Keyboard shortcuts:');
+            console.log('  R - Replay animation');
+            console.log('  F - Toggle frames');
+        });
+    </script>
+</body>
+</html>
