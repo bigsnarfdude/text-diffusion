@@ -81,7 +81,7 @@ cat generate.py
 **Read time**: 10 minutes
 **Contains**:
 - Local and remote setup instructions
-- Training options (quick test to production)
+- Training options (quick test to full training)
 - Generation examples
 - Troubleshooting guide
 
@@ -448,7 +448,7 @@ export CUDA_VISIBLE_DEVICES=""
 
 ## ✨ Project Highlights
 
-1. **Production-quality code**: Fully documented, modular, tested
+1. **Well-structured toy implementation**: Fully documented, modular, tested
 2. **Comprehensive documentation**: 4 guides covering all levels
 3. **Learning-focused**: Visualization tools, step-by-step walkthroughs
 4. **Ready to deploy**: One-command deployment script

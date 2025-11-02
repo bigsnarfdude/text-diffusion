@@ -16,7 +16,7 @@ class TrainingConfig:
     model_name: str = "distilroberta-base"  # Smaller/faster for learning
     # Alternative options:
     # - "roberta-base" (larger, better quality)
-    # - "roberta-large" (production quality)
+    # - "roberta-large" (higher quality, slower)
 
     # Data
     dataset_name: str = "wikitext"

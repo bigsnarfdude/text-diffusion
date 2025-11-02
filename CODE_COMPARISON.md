@@ -486,7 +486,7 @@ def parse_generation_args() -> GenerationConfig:
 
 **Same algorithm, much better code!**
 
-We took the research prototype and transformed it into a production-quality implementation:
+We took the research prototype and transformed it into a well-structured learning implementation:
 - ✅ Better organization
 - ✅ More features
 - ✅ Easier to use
@@ -494,4 +494,4 @@ We took the research prototype and transformed it into a production-quality impl
 - ✅ More maintainable
 - ✅ More extensible
 
-Perfect for learning, experimentation, and production use! 🚀
+Perfect for learning, experimentation, and understanding diffusion models! 🚀

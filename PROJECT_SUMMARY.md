@@ -2,7 +2,7 @@
 
 ## What We Built
 
-A complete, production-ready implementation of discrete text diffusion using RoBERTa. This is a toy/learning model that demonstrates the core concepts of diffusion-based text generation.
+A complete, well-structured toy implementation of discrete text diffusion using RoBERTa. This is a learning project that demonstrates the core concepts of diffusion-based text generation.
 
 ## Key Files
 
@@ -142,7 +142,7 @@ python3 experiments/masking_viz.py
 ### 1. Model Choice: distilroberta-base
 - **Why**: Fast training (~30 min for quick test)
 - **Alternative**: roberta-base (better quality, 2-3 hours)
-- **Production**: roberta-large or custom architecture
+- **Research/Experimentation**: roberta-large or custom architecture
 
 ### 2. Masking Distribution: Uniform [0.1, 0.2, ..., 1.0]
 - **Why**: Simple, covers full range
@@ -200,7 +200,7 @@ python3 experiments/masking_viz.py
 - [ ] Compare to GPT-2 for your use case
 - [ ] Implement classifier guidance
 - [ ] Add structured output constraints
-- [ ] Optimize for production deployment
+- [ ] Experiment with larger models and datasets
 
 ## Resources Created
 
@@ -213,7 +213,7 @@ python3 experiments/masking_viz.py
 ### Code
 - **Core**: 1000 lines (collator, training, generation, config)
 - **Experiments**: 350 lines (visualization tools)
-- **Total**: ~1350 lines of production-quality Python
+- **Total**: ~1350 lines of well-documented Python
 
 ### Scripts
 - **deploy_to_nigel.sh**: One-command deployment

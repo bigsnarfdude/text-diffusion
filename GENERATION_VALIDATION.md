@@ -195,7 +195,7 @@ Machine learning is the term for the use of artificial intelligence...
 - ✅ Analyze how temperature affects output
 - ✅ Study the denoising process step-by-step
 
-**For production quality (new training run):**
+**For higher quality outputs (new training run):**
 - Train for 20+ epochs
 - Use cleaner dataset (e.g., BookCorpus)
 - Implement post-processing for tokenization
@@ -220,7 +220,7 @@ Machine learning is the term for the use of artificial intelligence...
 - Learning about iterative refinement
 - Building intuition for the approach
 
-**Not recommended for:** Production use cases (need longer training + larger model)
+**Not recommended for:** Real-world applications (this is a toy model for learning; would need longer training + larger model for actual use)
 
 ---
 

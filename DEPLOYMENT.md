@@ -122,7 +122,7 @@ python train.py --model-name roberta-base --epochs 10 --batch-size 16 --output-d
 - Epochs: 10+
 - Purpose: Better quality for experimentation
 
-### Production quality (days)
+### Higher quality outputs (days)
 ```bash
 python train.py --model-name roberta-large --epochs 20 --batch-size 8 --output-dir results-prod
 ```
