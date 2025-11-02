@@ -100,9 +100,9 @@ python src/evaluate_classifier.py \
 # Expected result: ~94% accuracy
 ```
 
-## Generative Classification Explained
+## Diffusion-based Generative Classifier Explained
 
-### What Is Generative Classification?
+### What Is Diffusion-based Generative Classifier?
 
 Instead of training a single discriminative model P(class|text), we:
 1. Train separate diffusion models for each class: P(text|class_0), P(text|class_1), ...
@@ -132,7 +132,7 @@ When you give a new review like "This movie was terrible and boring":
 - Result: **94% accuracy** on IMDB sentiment classification
 - Solution: More data + more epochs → models diverge and learn class-specific language
 
-**Key Insight:** Generative classification works, but requires significantly more training than discriminative approaches to learn distinct P(text|class) distributions.
+**Key Insight:** Diffusion-based Generative Classifier works, but requires significantly more training than discriminative approaches to learn distinct P(text|class) distributions.
 
 ### Implementation Details
 
