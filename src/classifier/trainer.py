@@ -13,7 +13,6 @@ import torch
 from transformers import (
     RobertaForMaskedLM,
     AutoTokenizer,
-    Trainer,
     TrainingArguments
 )
 
@@ -21,6 +20,7 @@ from transformers import (
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.data_collator import DiffusionDataCollator
+from src.train import DiffusionTrainer  # Use custom trainer that removes mask_prob
 from src.classifier.data import (
     ClassificationDataset,
     load_classification_data,
@@ -141,8 +141,8 @@ class PerClassTrainer:
                 # mask_probs defaults to [1.0, 0.9, ..., 0.1] for variable masking
             )
 
-            # Create trainer
-            trainer = Trainer(
+            # Create trainer (using DiffusionTrainer to handle mask_prob)
+            trainer = DiffusionTrainer(
                 model=model,
                 args=training_args,
                 train_dataset=dataset,
@@ -225,7 +225,7 @@ class PerClassTrainer:
             tokenizer=self.tokenizer
         )
 
-        trainer = Trainer(
+        trainer = DiffusionTrainer(
             model=model,
             args=training_args,
             train_dataset=dataset,
