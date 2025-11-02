@@ -137,8 +137,8 @@ class PerClassTrainer:
 
             # Create data collator with variable masking (the key innovation!)
             data_collator = DiffusionDataCollator(
-                tokenizer=self.tokenizer,
-                mask_prob=None  # Variable masking for diffusion
+                tokenizer=self.tokenizer
+                # mask_probs defaults to [1.0, 0.9, ..., 0.1] for variable masking
             )
 
             # Create trainer
@@ -222,8 +222,7 @@ class PerClassTrainer:
         )
 
         data_collator = DiffusionDataCollator(
-            tokenizer=self.tokenizer,
-            mask_prob=None
+            tokenizer=self.tokenizer
         )
 
         trainer = Trainer(
