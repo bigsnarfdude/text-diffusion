@@ -3,6 +3,11 @@
 A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation. Experiments on classification tasks for applications requiring robust, calibrated, and explainable text classification.
 With further experiments using GPT2 and discrete text diffusion using GPT2
 
+I'm very concerned that data curation can lead to pushing results chasing a benchmark score with trying to prove these ideas work. 
+LLM-as-Judge for Synthetic Data Generation Loop
+This is a clever approach several labs are using. Here's how it works and the tradeoffs:
+
+
 Diffusion models for text classification remain largely unexplored with only 3-5 core papers published between 2022-2024, primarily focusing on adversarial robustness and uncertainty quantification rather than accuracy improvements, with ROIC-DM (2024) being the first to directly use diffusion as a text classifier. ccresearch
 
 https://gist.github.com/bigsnarfdude/23ec6b30a53437c436c8c4338ee6678c
