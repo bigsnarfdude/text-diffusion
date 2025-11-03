@@ -10,6 +10,7 @@ maybe a LLM-as-Judge for Synthetic Data Generation Loop
 Diffusion models for text classification remain largely unexplored with only 3-5 core papers published between 2022-2024, primarily focusing on adversarial robustness and uncertainty quantification rather than accuracy improvements, with ROIC-DM (2024) being the first to directly use diffusion as a text classifier. ccresearch
 
 https://gist.github.com/bigsnarfdude/23ec6b30a53437c436c8c4338ee6678c
+https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge
 
 ## See It In Action!
 
