@@ -1,4 +1,4 @@
-# Text Diffusion Learning Project
+# Text Diffusion Learning Project and Block Discrete Diffusion Models
 
 A toy implementation of discrete text diffusion using RoBERTa for learning and experimentation. Experiments on classification tasks for applications requiring robust, calibrated, and explainable text classification.
 With further experiments using GPT2 and discrete text diffusion using GPT2
